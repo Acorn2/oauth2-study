@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Oauth2 实操</title>
+<!--  <script type="text/javascript" src="/jquery-3.5.0.min.js"></script>-->
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<h1 id="text"></h1>
+
+<script>
+    const hash = window.location.hash;//提取出参数，类似这种格式#access_token=9fda1800-3b57-4d32-ad01-05ff700d44cc&token_type=bearer&expires_in=7199
+    if (hash && hash.length > 0) {
+        const params = hash.substring(1).split("&");
+        const token = params[0].split("=");//[access_token,9fda1800-3b57-4d32-ad01-05ff700d44cc]
+        $.ajax({
+            type: 'get',
+            headers: {
+                'Authorization': 'Bearer ' + token[1]
+            },
+            url: 'http://localhost:8082/hello',
+            success: function (data) {
+                $("#text").html(data)
+            }
+        })
+    }
+</script>
+
+</body>
+</html>
